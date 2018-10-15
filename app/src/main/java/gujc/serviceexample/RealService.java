@@ -2,19 +2,12 @@ package gujc.serviceexample;
 
 import android.app.AlarmManager;
 import android.app.Application;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -42,7 +35,7 @@ public class RealService extends Service {
                     try {
                         Thread.sleep(1000 * 60 * 1); // 1 minute
                         Date date = new Date();
-                        sendNotification(getApplication(), "Service test", sdf.format(date));
+                        showToast(getApplication(), sdf.format(date));
                     } catch (InterruptedException e) {
                         run = false;
                         e.printStackTrace();
@@ -105,33 +98,4 @@ public class RealService extends Service {
         mAlarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), sender);
     }
 
-    public void sendNotification(Context activity, String msgTitle, String msgBody) {
-
-        Intent intent = new Intent(activity, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);//FLAG_ONE_SHOT);
-
-        String channelId = "fcm_default_channel";
-
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(activity, channelId)
-                        .setSmallIcon(R.mipmap.ic_launcher)//drawable.splash)
-                        .setContentTitle(msgTitle)
-                        .setContentText(msgBody)
-                        .setAutoCancel(true)
-//                        .setSound(defaultSoundUri)
-                        .setVisibility(Notification.VISIBILITY_PUBLIC)
-                        .setPriority(Notification.PRIORITY_HIGH)
-                        .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, "Channel", NotificationManager.IMPORTANCE_HIGH);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        notificationManager.notify(2, notificationBuilder.build());
-    }
 }
