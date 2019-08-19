@@ -21,11 +21,6 @@ This is an example of an attempt to solve this problem.
 ![image](./image.png)
 
 
-### Problem ###
-The service is restarted every 2 to 5 minutes in Oreo (SDK 27).
-
-This seems to be a system performance issue.
-
 ### INSTALLATION ###
 1. Clone this source from github (in android studio).
 2. Run.
