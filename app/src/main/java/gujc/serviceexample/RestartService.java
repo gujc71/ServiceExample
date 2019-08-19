@@ -37,7 +37,7 @@ public class RestartService extends Service {
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            manager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager.IMPORTANCE_DEFAULT));
+            manager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager. IMPORTANCE_NONE));
         }
 
         Notification notification = builder.build();
